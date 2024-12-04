@@ -1,6 +1,11 @@
+AVISOS:
+Sempre iniciar venv -> ./venv/Scripts/activate
+Comparar código com yolov7 pose
+Visualizar sempre utils.generals
+
 Repositórios usados:
-https://github.com/WongKinYiu/yolov7
-https://github.com/WongKinYiu/yolov7/tree/pose
+yolov7 -> https://github.com/WongKinYiu/yolov7
+yolov7 pose _> https://github.com/WongKinYiu/yolov7/tree/pose
 
 Notas:
 detect.py
@@ -9,3 +14,5 @@ detect.py
     retirada de no trace e save text tidl
 
 A fazer:
+scale_coord error
+teste com videos
