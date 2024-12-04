@@ -1,0 +1,11 @@
+Repositórios usados:
+https://github.com/WongKinYiu/yolov7
+https://github.com/WongKinYiu/yolov7/tree/pose
+
+Notas:
+detect.py
+    #add from yolov7 pose -> linhas importadas do código expecificado
+    alteração nos requirements
+    retirada de no trace e save text tidl
+
+A fazer:

@@ -317,19 +317,44 @@ def resample_segments(segments, n=1000):
     return segments
 
 
-def scale_coords(img1_shape, coords, img0_shape, ratio_pad=None):
+def scale_coords(img1_shape, coords, img0_shape, ratio_pad=None, kpt_label=False, step=2):
+    # # Rescale coords (xyxy) from img1_shape to img0_shape
+    # if ratio_pad is None:  # calculate from img0_shape
+    #     gain = min(img1_shape[0] / img0_shape[0], img1_shape[1] / img0_shape[1])  # gain  = old / new
+    #     pad = (img1_shape[1] - img0_shape[1] * gain) / 2, (img1_shape[0] - img0_shape[0] * gain) / 2  # wh padding
+    # else:
+    #     gain = ratio_pad[0][0]
+    #     pad = ratio_pad[1]
+
+    # coords[:, [0, 2]] -= pad[0]  # x padding
+    # coords[:, [1, 3]] -= pad[1]  # y padding
+    # coords[:, :4] /= gain
+    # clip_coords(coords, img0_shape)
+    # return coords
+
     # Rescale coords (xyxy) from img1_shape to img0_shape
     if ratio_pad is None:  # calculate from img0_shape
         gain = min(img1_shape[0] / img0_shape[0], img1_shape[1] / img0_shape[1])  # gain  = old / new
         pad = (img1_shape[1] - img0_shape[1] * gain) / 2, (img1_shape[0] - img0_shape[0] * gain) / 2  # wh padding
     else:
-        gain = ratio_pad[0][0]
+        gain = ratio_pad[0]
         pad = ratio_pad[1]
-
-    coords[:, [0, 2]] -= pad[0]  # x padding
-    coords[:, [1, 3]] -= pad[1]  # y padding
-    coords[:, :4] /= gain
-    clip_coords(coords, img0_shape)
+    if isinstance(gain, (list, tuple)):
+        gain = gain[0]
+    if not kpt_label:
+        coords[:, [0, 2]] -= pad[0]  # x padding
+        coords[:, [1, 3]] -= pad[1]  # y padding
+        coords[:, [0, 2]] /= gain
+        coords[:, [1, 3]] /= gain
+        clip_coords(coords[0:4], img0_shape)
+        #coords[:, 0:4] = coords[:, 0:4].round()
+    else:
+        coords[:, 0::step] -= pad[0]  # x padding
+        coords[:, 1::step] -= pad[1]  # y padding
+        coords[:, 0::step] /= gain
+        coords[:, 1::step] /= gain
+        clip_coords(coords, img0_shape, step=step)
+        #coords = coords.round()
     return coords
 
 
@@ -890,3 +915,16 @@ def increment_path(path, exist_ok=True, sep=''):
         i = [int(m.groups()[0]) for m in matches if m]  # indices
         n = max(i) + 1 if i else 2  # increment number
         return f"{path}{sep}{n}"  # update path
+
+# add from yolov7 pose
+def save_one_box(xyxy, im, file='image.jpg', gain=1.02, pad=10, square=False, BGR=False):
+    # Save an image crop as {file} with crop size multiplied by {gain} and padded by {pad} pixels
+    xyxy = torch.tensor(xyxy).view(-1, 4)
+    b = xyxy2xywh(xyxy)  # boxes
+    if square:
+        b[:, 2:] = b[:, 2:].max(1)[0].unsqueeze(1)  # attempt rectangle to square
+    b[:, 2:] = b[:, 2:] * gain + pad  # box wh * gain + pad
+    xyxy = xywh2xyxy(b).long()
+    clip_coords(xyxy, im.shape)
+    crop = im[int(xyxy[0, 1]):int(xyxy[0, 3]), int(xyxy[0, 0]):int(xyxy[0, 2])]
+    cv2.imwrite(str(increment_path(file, mkdir=True).with_suffix('.jpg')), crop if BGR else crop[..., ::-1])
