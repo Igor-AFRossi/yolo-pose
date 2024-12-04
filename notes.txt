@@ -15,4 +15,5 @@ detect.py
 
 A fazer:
 scale_coord error
+apply classi error
 teste com videos
