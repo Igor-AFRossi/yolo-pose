@@ -1,21 +1,6 @@
-AVISOS:
-Sempre iniciar venv -> ./venv/Scripts/activate
-Comparar código com yolov7 pose
-Visualizar sempre utils.generals
-
-Comandos:
-Pose ->
-python -m torch.distributed.launch --nproc_per_node 8 --master_port 9527 train.py --data data/coco_kpts.yaml --cfg cfg/yolov7-w6-pose.yaml --weights weights/yolov7-w6-person.pt --batch-size 128 --img 960 --kpt-label --sync-bn --device 0,1,2,3,4,5,6,7 --name yolov7-w6-pose --hyp data/hyp.pose.yaml
-python test.py --data data/coco_kpts.yaml --img 960 --conf 0.001 --iou 0.65 --weights yolov7-w6-pose.pt --kpt-label
-python detect.py --weights yolov7-w6-pose.pt --conf 0.25 --img-size 640 640 --source inference/images/ney.jpg
-Padrão ->
-python train.py --workers 8 --device 0 --batch-size 32 --data data/coco.yaml --img 640 640 --cfg cfg/training/yolov7.yaml --weights '' --name yolov7 --hyp data/hyp.scratch.p5.yaml
-python test.py --data data/coco.yaml --img 640 --batch 32 --conf 0.001 --iou 0.65 --device 0 --weights yolov7.pt --name yolov7_640_val
-python detect.py --weights yolov7.pt --conf 0.25 --img-size 640 --source inference/images/horses.jpg
-
 Repositórios usados:
-https://github.com/WongKinYiu/yolov7
-https://github.com/WongKinYiu/yolov7/tree/pose
+yolov7 -> https://github.com/WongKinYiu/yolov7
+yolov7 pose _> https://github.com/WongKinYiu/yolov7/tree/pose
 
 Notas:
 detect.py
@@ -24,6 +9,3 @@ detect.py
     retirada de no trace e save text tidl
 
 A fazer:
-scale_coord error
-apply classi error
-teste com videos
