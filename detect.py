@@ -10,7 +10,7 @@ from numpy import random
 from models.experimental import attempt_load
 from utils.datasets import LoadStreams, LoadImages
 from utils.general import check_img_size, check_requirements, check_imshow, non_max_suppression, apply_classifier, \
-    scale_coords, xyxy2xywh, strip_optimizer, set_logging, increment_path, save_one_box
+    scale_coords, xyxy2xywh, strip_optimizer, set_logging, increment_path, save_one_box, non_max_suppression_kpt
 from utils.plots import plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized, TracedModel
 
@@ -121,7 +121,7 @@ def detect(opt):
         print("\nInference ok\n")
 
         # Apply NMS
-        pred = non_max_suppression(pred, opt.conf_thres, opt.iou_thres, classes=opt.classes, agnostic=opt.agnostic_nms)
+        pred = non_max_suppression_kpt(pred, opt.conf_thres, opt.iou_thres, classes=opt.classes, agnostic=opt.agnostic_nms)
         t3 = time_synchronized()
 
         print("\nNMS ok\n")
@@ -131,7 +131,10 @@ def detect(opt):
             pred = apply_classifier(pred, modelc, img, im0s)
 
         print("\nClass ok\n")
-
+        print()
+        print(pred)
+        print()
+        
         # Process detections
         for i, det in enumerate(pred):  # detections per image
             if webcam:  # batch_size >= 1
