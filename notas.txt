@@ -3,6 +3,9 @@ VIDEO -> python detect.py --weights yolov7-w6-pose.pt --conf 0.25 --source infer
 IMAGEM -> python detect.py --weights yolov7-w6-pose.pt --conf 0.25 --source inference/images/image.jpg --view-img
 WEBCAM -> python detect.py --weights yolov7-w6-pose.pt --conf 0.25 --source 0 --view-img
 
+download yolov7-w6-pose.pt -> https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-w6-pose.pt
+
+venv packages
 
 Package                 Version
 ----------------------- ----------------
