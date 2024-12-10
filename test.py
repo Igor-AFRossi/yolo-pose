@@ -45,7 +45,7 @@ def test(data,
          opt=None,		 		 
          tidl_load=False,
          dump_img=False,
-         kpt_label=False,
+         kpt_label=True,
          flip_test=False):
     # Initialize/load model and set device
     training = model is not None
