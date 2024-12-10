@@ -5,6 +5,8 @@ WEBCAM -> python detect.py --weights yolov7-w6-pose.pt --conf 0.25 --source 0 --
 
 download yolov7-w6-pose.pt -> https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-w6-pose.pt
 
+!!!skip frames line 239 datasets.py!!!
+
 venv packages
 
 Package                 Version
