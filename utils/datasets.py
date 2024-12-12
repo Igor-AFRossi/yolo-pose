@@ -236,10 +236,10 @@ class LoadWebcam:  # for inference
             while True:
                 n += 1
                 self.cap.grab()
-                if n % 30 == 0:  # skip frames
-                    ret_val, img0 = self.cap.retrieve()
-                    if ret_val:
-                        break
+                #if n % 5 == 0:  # skip frames
+                ret_val, img0 = self.cap.retrieve()
+                if ret_val:
+                    break
 
         # Print
         assert ret_val, f'Camera Error {self.pipe}'

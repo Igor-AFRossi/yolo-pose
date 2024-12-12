@@ -13,6 +13,9 @@ from itertools import repeat
 from multiprocessing.pool import ThreadPool
 from pathlib import Path
 
+import json
+import socket
+
 import cv2
 import numpy as np
 import pandas as pd
@@ -816,3 +819,19 @@ def increment_path(path, exist_ok=False, sep='', mkdir=False):
     if not dir.exists() and mkdir:
         dir.mkdir(parents=True, exist_ok=True)  # make directory
     return path
+
+# Função para enivar os dados via socket
+def send_to_unreal(kpts, server_ip='127.0.0.1', server_port=12345):
+    # Formatar os dados das articulações (kpts) em um formato JSON
+    data = {
+        "keypoints": kpts.tolist()  # Converte para lista se for um tensor do PyTorch
+    }
+    print(data)
+    
+    # Criar conexão com o servidor (Unreal)
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+        # Enviar os dados para o servidor Unreal    
+        sock.sendto(json.dumps(data).encode('utf-8'), (server_ip, server_port))
+        print("Enviado")
+
+

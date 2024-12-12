@@ -12,7 +12,7 @@ from numpy import random
 from models.experimental import attempt_load
 from utils.datasets import LoadStreams, LoadImages
 from utils.general import check_img_size, check_requirements, check_imshow, non_max_suppression, apply_classifier, \
-    scale_coords, xyxy2xywh, strip_optimizer, set_logging, increment_path, save_one_box, non_max_suppression_kpt
+    scale_coords, xyxy2xywh, strip_optimizer, set_logging, increment_path, save_one_box, send_to_unreal
 from utils.plots import colors, plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized
 
@@ -121,6 +121,7 @@ def detect(opt):
                         c = int(cls)  # integer class
                         label = None #if opt.hide_labels else (names[c] if opt.hide_conf else f'{names[c]} {conf:.2f}')
                         kpts = det[det_index, 6:]
+                        send_to_unreal(kpts)
                         plot_one_box(xyxy, im0, label=label, color=colors(c, True), line_thickness=opt.line_thickness, kpt_label=kpt_label, kpts=kpts, steps=3, orig_shape=im0.shape[:2])
                         if opt.save_crop:
                             save_one_box(xyxy, im0s, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
