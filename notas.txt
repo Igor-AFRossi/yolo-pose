@@ -9,6 +9,8 @@ download yolov7-w6-pose.pt -> https://github.com/WongKinYiu/yolov7/releases/down
 
 venv packages
 
+Python 3.12.8
+
 Package                 Version
 ----------------------- ----------------
 absl-py                 2.1.0
