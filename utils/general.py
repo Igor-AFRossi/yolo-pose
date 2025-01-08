@@ -822,16 +822,25 @@ def increment_path(path, exist_ok=False, sep='', mkdir=False):
 
 # Função para enivar os dados via socket
 def send_to_unreal(kpts, server_ip='127.0.0.1', server_port=12345):
-    # Formatar os dados das articulações (kpts) em um formato JSON
-    data = {
-        "keypoints": kpts.tolist()  # Converte para lista se for um tensor do PyTorch
-    }
-    print(data)
     
+    # Formatar os dados das articulações (kpts) em um formato JSON
+    # data = {
+    #     "keypoints": kpts.tolist()  # Converte para lista se for um tensor do PyTorch
+    # }
+    
+    keypoints = [
+    {"id": i // 3, "x": kpts[i].item(), "y": kpts[i + 1].item(), "confidence": kpts[i + 2].item()}
+    for i in range(0, len(kpts), 3)
+    ]
+
+    keypoints_json = json.dumps({"keypoints": keypoints})
+
+    #print(keypoints_json)
+
     # Criar conexão com o servidor (Unreal)
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
         # Enviar os dados para o servidor Unreal    
-        sock.sendto(json.dumps(data).encode('utf-8'), (server_ip, server_port))
+        sock.sendto(json.dumps(keypoints_json).encode('utf-8'), (server_ip, server_port))
         print("Enviado")
 
 

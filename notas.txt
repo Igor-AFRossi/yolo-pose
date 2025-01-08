@@ -7,6 +7,17 @@ download yolov7-w6-pose.pt -> https://github.com/WongKinYiu/yolov7/releases/down
 
 !!!skip frames line 239 datasets.py!!!
 
+UDP SOCKET LISTENER TESTE!
+
+$udpClient = New-Object System.Net.Sockets.UdpClient(12345) # Escutando na porta 12345                                                                                    
+>> $remoteEndPoint = New-Object System.Net.IPEndPoint ([System.Net.IPAddress]::Any, 0)                      
+>> 
+>> while ($true) {
+>>     $receivedBytes = $udpClient.Receive([ref]$remoteEndPoint) # Recebendo dados UDP
+>>     $message = [System.Text.Encoding]::UTF8.GetString($receivedBytes) # Convertendo bytes em string
+>>     Write-Host "Mensagem recebida: $message"
+>> }
+
 venv packages
 
 Python 3.12.8
@@ -16,7 +27,7 @@ Package                 Version
 absl-py                 2.1.0
 certifi                 2024.8.30
 charset-normalizer      3.4.0
-colorama                0.4.6
+colorama                0.4.6   
 coloredlogs             15.0.1
 contourpy               1.3.1
 cycler                  0.12.1
