@@ -74,7 +74,7 @@ def detect(opt):
         # Inference
         t1 = time_synchronized()
         pred = model(img, augment=opt.augment)[0]
-        print(pred[...,4].max())
+        #print(pred[...,4].max())
         # Apply NMS
         pred = non_max_suppression(pred, opt.conf_thres, opt.iou_thres, classes=opt.classes, agnostic=opt.agnostic_nms, kpt_label=kpt_label)
         t2 = time_synchronized()
@@ -199,7 +199,7 @@ if __name__ == '__main__':
     parser.add_argument('--hide-conf', default=False, action='store_true', help='hide confidences')
     parser.add_argument('--kpt-label', action='store_true', help='use keypoint labels')
     opt = parser.parse_args()
-    print(opt)
+    #print(opt)
     #check_requirements(exclude=('tensorboard', 'pycocotools', 'thop'))
 
     with torch.no_grad():

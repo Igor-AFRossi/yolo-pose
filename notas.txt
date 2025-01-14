@@ -10,13 +10,13 @@ download yolov7-w6-pose.pt -> https://github.com/WongKinYiu/yolov7/releases/down
 UDP SOCKET LISTENER TESTE!
 
 $udpClient = New-Object System.Net.Sockets.UdpClient(12345) # Escutando na porta 12345                                                                                    
->> $remoteEndPoint = New-Object System.Net.IPEndPoint ([System.Net.IPAddress]::Any, 0)                      
->> 
->> while ($true) {
->>     $receivedBytes = $udpClient.Receive([ref]$remoteEndPoint) # Recebendo dados UDP
->>     $message = [System.Text.Encoding]::UTF8.GetString($receivedBytes) # Convertendo bytes em string
->>     Write-Host "Mensagem recebida: $message"
->> }
+ $remoteEndPoint = New-Object System.Net.IPEndPoint ([System.Net.IPAddress]::Any, 0)                      
+ 
+ while ($true) {
+     $receivedBytes = $udpClient.Receive([ref]$remoteEndPoint) # Recebendo dados UDP
+     $message = [System.Text.Encoding]::UTF8.GetString($receivedBytes) # Convertendo bytes em string
+     Write-Host "Mensagem recebida: $message"
+ }
 
 venv packages
 

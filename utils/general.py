@@ -841,6 +841,6 @@ def send_to_unreal(kpts, server_ip='127.0.0.1', server_port=12345):
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
         # Enviar os dados para o servidor Unreal    
         sock.sendto(json.dumps(keypoints_json).encode('utf-8'), (server_ip, server_port))
-        print("Enviado")
+        #print("Enviado")
 
 
